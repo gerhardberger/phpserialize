@@ -100,7 +100,7 @@ func MarshalFloat(value float64, bitSize int) []byte {
 func MarshalString(value string) []byte {
 	// As far as I can tell only the single-quote is escaped. Not even the
 	// backslash itself is escaped. Weird. See escapeTests for more information.
-	value = strings.Replace(value, "'", "\\'", -1)
+	// value = strings.Replace(value, "'", "\\'", -1)
 
 	return []byte(fmt.Sprintf("s:%d:\"%s\";", len(value), value))
 }
@@ -188,11 +188,11 @@ func MarshalStruct(input interface{}, options *MarshalOptions) ([]byte, error) {
 // Marshal is the canonical way to perform the equivalent of serialize() in PHP.
 // It can handle encoding scalar types, slices and maps.
 func Marshal(input interface{}, options *MarshalOptions) ([]byte, error) {
-	
+
 	if options == nil {
 		options = DefaultMarshalOptions()
 	}
-	
+
 	// []byte is a special case because all strings (binary and otherwise)
 	// are handled as strings in PHP.
 	if bytesToEncode, ok := input.([]byte); ok {
